@@ -1,7 +1,7 @@
 # Taller 07 - Secure Application Design on AWS
 
 ## Author
-Daniel Santiago Baenar
+David Salomón Baena Rubio
 
 ## Overview
 A secure, scalable web application deployed on AWS using two EC2 instances: an **Apache HTTP Server** serving an async HTML+JS client over TLS, and a **Spring Boot** backend providing RESTful API endpoints secured with TLS. Both servers use **Let's Encrypt** certificates for encryption.
