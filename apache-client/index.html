@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureApp - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .container {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.8rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        .tls-badge {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tls-badge span {
+            background: rgba(0,200,83,0.2);
+            color: #69f0ae;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(0,200,83,0.3);
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.5);
+        }
+        .tab.active {
+            border-bottom-color: #7c4dff;
+            color: #fff;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #7c4dff;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #7c4dff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 8px;
+        }
+        button:hover { background: #651fff; }
+        button:disabled {
+            background: rgba(124,77,255,0.4);
+            cursor: not-allowed;
+        }
+        .message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .message.success {
+            background: rgba(0,200,83,0.15);
+            border: 1px solid rgba(0,200,83,0.3);
+            color: #69f0ae;
+            display: block;
+        }
+        .message.error {
+            background: rgba(255,82,82,0.15);
+            border: 1px solid rgba(255,82,82,0.3);
+            color: #ff5252;
+            display: block;
+        }
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #dashboard {
+            display: none;
+        }
+        .greeting-section {
+            margin-top: 20px;
+        }
+        .greeting-section input {
+            margin-bottom: 10px;
+        }
+        .greeting-result {
+            margin-top: 12px;
+            padding: 16px;
+            background: rgba(124,77,255,0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(124,77,255,0.2);
+            min-height: 50px;
+        }
+        .logout-btn {
+            background: rgba(255,82,82,0.3);
+            border: 1px solid rgba(255,82,82,0.4);
+            margin-top: 20px;
+        }
+        .logout-btn:hover { background: rgba(255,82,82,0.5); }
+    </style>
+</head>
+<body>
+    <!-- Login / Register Form -->
+    <div class="container" id="authContainer">
+        <h1>SecureApp</h1>
+        <p class="subtitle">Enterprise Secure Architecture</p>
+        <div class="tls-badge">
+            <span>TLS Encrypted Connection</span>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')">Login</div>
+            <div class="tab" onclick="switchTab('register')">Register</div>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="loginUser">Username</label>
+                <input type="text" id="loginUser" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPass">Password</label>
+                <input type="password" id="loginPass" placeholder="Enter password" required>
+            </div>
+            <button type="submit" id="loginBtn">Sign In</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" style="display:none" onsubmit="handleRegister(event)">
+            <div class="form-group">
+                <label for="regUser">Username</label>
+                <input type="text" id="regUser" placeholder="Choose username" required>
+            </div>
+            <div class="form-group">
+                <label for="regPass">Password</label>
+                <input type="password" id="regPass" placeholder="Min 6 characters" required minlength="6">
+            </div>
+            <button type="submit" id="regBtn">Create Account</button>
+        </form>
+
+        <div id="authMessage" class="message"></div>
+    </div>
+
+    <!-- Dashboard (shown after login) -->
+    <div class="container" id="dashboard">
+        <h1>Dashboard</h1>
+        <p class="subtitle">Welcome, <span id="welcomeUser"></span></p>
+        <div class="tls-badge">
+            <span>Secure Session Active</span>
+        </div>
+
+        <div class="greeting-section">
+            <label for="greetName">Test the Secure API</label>
+            <input type="text" id="greetName" placeholder="Enter your name">
+            <button onclick="fetchGreeting()">Send Async Request</button>
+            <div class="greeting-result" id="greetingResult">
+                Response will appear here...
+            </div>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
